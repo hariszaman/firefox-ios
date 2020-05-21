@@ -102,7 +102,6 @@ class NavigationTest: BaseTestCase {
     
     // Beacuse the Settings menu does not stretch tot the top we need a different function to check if the Firefox Sync screen is shown
     private func checkFirefoxSyncScreenShownViaSettings() {
-        print(app.debugDescription)
         waitForExistence(app.navigationBars["Client.FirefoxAccountSignInView"], timeout: 20)
         app.buttons["Use Email Instead"].tap()
         waitForExistence(app.webViews.textFields.element(boundBy: 0), timeout:20)
@@ -126,7 +125,6 @@ class NavigationTest: BaseTestCase {
 
     private func checkFirefoxSyncScreenShown() {
         // Disable check, page load issues on iOS13.3 sims, issue #5937
-        print(app.debugDescription)
         waitForExistence(app.webViews.firstMatch, timeout: 20)
         // Workaround BB iOS13
 //        waitForExistence(app.navigationBars["Client.FxAContentView"], timeout: 60)
