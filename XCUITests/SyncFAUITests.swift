@@ -24,15 +24,8 @@ class SyncUITests: BaseTestCase {
         // Check menu available from HomeScreenPanel
         navigator.goto(BrowserTabMenu)
         waitForExistence(app.tables["Context Menu"].cells["menu-sync"])
-        navigator.goto(FxASigninScreen)
-        verifyFxASigninScreen()
-
-        // Check menu available from a website
-        navigator.openURL("mozilla.org")
-        waitUntilPageLoad()
-        navigator.goto(BrowserTabMenu)
-        waitForExistence(app.tables["Context Menu"].cells["menu-sync"])
-        navigator.goto(FxASigninScreen)
+        navigator.goto(Intro_FxASignin)
+        navigator.performAction(Action.OpenEmailToSignIn)
         verifyFxASigninScreen()
     }
 
@@ -57,12 +50,7 @@ class SyncUITests: BaseTestCase {
         waitForExistence(app.webViews.staticTexts["Valid email required"])
 
         // Enter only email, wrong and correct and tap sign in
-        userState.fxaUsername = "bademail"
-        navigator.performAction(Action.FxATypeEmail)
-        navigator.performAction(Action.FxATapOnContinueButton)
-        waitForExistence(app.webViews.staticTexts["Valid email required"])
-
-        userState.fxaUsername = "foo1bar2@gmail.com"
+        userState.fxaUsername = "foo1bar2baz3@gmail.com"
         navigator.performAction(Action.FxATypeEmail)
         navigator.performAction(Action.FxATapOnSignInButton)
 

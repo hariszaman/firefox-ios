@@ -76,6 +76,7 @@ class NavigationTest: BaseTestCase {
     func testTapSignInShowsFxAFromTour() {
         // Open FxAccount from tour option in settings menu and go throughout all the screens there
         navigator.goto(Intro_FxASignin)
+        navigator.performAction(Action.OpenEmailToSignIn)
         checkFirefoxSyncScreenShown()
 
         // Disabled due to issue 5937, not possible to tap on Close button
@@ -92,14 +93,20 @@ class NavigationTest: BaseTestCase {
         checkFirefoxSyncScreenShownViaSettings()
 
         // After that it is possible to go back to Settings
-        let settingsButton = app.navigationBars["Client.FxAWebView"].buttons["Settings"]
-        settingsButton.tap()
+        let closeButton = app.navigationBars["Client.FxAWebView"].buttons["Close"]
+        closeButton.tap()
+
+        let closeButtonFxView = app.navigationBars["Client.FirefoxAccountSignInView"].buttons["Settings"]
+        closeButtonFxView.tap()
     }
     
     // Beacuse the Settings menu does not stretch tot the top we need a different function to check if the Firefox Sync screen is shown
     private func checkFirefoxSyncScreenShownViaSettings() {
-        waitForExistence(app.navigationBars["Client.FxAWebView"], timeout: 20)
+        print(app.debugDescription)
+        waitForExistence(app.navigationBars["Client.FirefoxAccountSignInView"], timeout: 20)
+        app.buttons["Use Email Instead"].tap()
         waitForExistence(app.webViews.textFields.element(boundBy: 0), timeout:20)
+
         let email = app.webViews.textFields.element(boundBy: 0)
         // Verify the placeholdervalues here for the textFields
         let mailPlaceholder = "Email"
@@ -112,14 +119,14 @@ class NavigationTest: BaseTestCase {
         navigator.goto(LibraryPanel_SyncedTabs)
 
         app.tables.buttons["Sign in to Sync"].tap()
+        waitForExistence(app.buttons["Use Email Instead"], timeout: 10)
+        app.buttons["Use Email Instead"].tap()
         checkFirefoxSyncScreenShown()
-        
-        app.navigationBars["Client.FxAWebView"].buttons["Close"].tap()
-        navigator.nowAt(LibraryPanel_SyncedTabs)
     }
 
     private func checkFirefoxSyncScreenShown() {
         // Disable check, page load issues on iOS13.3 sims, issue #5937
+        print(app.debugDescription)
         waitForExistence(app.webViews.firstMatch, timeout: 20)
         // Workaround BB iOS13
 //        waitForExistence(app.navigationBars["Client.FxAContentView"], timeout: 60)
