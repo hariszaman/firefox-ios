@@ -186,6 +186,7 @@ class Action {
     static let CloseTabFromTabTrayLongPressMenu = "CloseTabFromTabTrayLongPressMenu"
 
     static let OpenEmailToSignIn = "OpenEmailToSignIn"
+    static let OpenEmailToQR = "OpenEmailToQR"
 
     static let FxATypeEmail = "FxATypeEmail"
     static let FxATypePassword = "FxATypePassword"
@@ -918,8 +919,8 @@ func createScreenGraph(for test: XCTestCase, with app: XCUIApplication) -> MMScr
 
     map.addScreenState(Intro_FxASignin) { screenState in
         screenState.tap(app.navigationBars["Client.FirefoxAccountSignInView"].buttons.element(boundBy: 0), to: HomePanelsScreen)
-
-        screenState.tap(app.buttons["Use Email Instead"], forAction: Action.OpenEmailToSignIn, transitionTo: FxASigninScreen)
+        screenState.tap(app.buttons["EmailSignIn.button"], forAction: Action.OpenEmailToSignIn, transitionTo: FxASigninScreen)
+        screenState.tap(app.buttons["QRCodeSignIn.button"], forAction: Action.OpenEmailToQR, transitionTo: Intro_FxASignin)
     }
 
     map.addScreenState(TabTray) { screenState in

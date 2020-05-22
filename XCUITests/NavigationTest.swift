@@ -103,7 +103,7 @@ class NavigationTest: BaseTestCase {
     // Beacuse the Settings menu does not stretch tot the top we need a different function to check if the Firefox Sync screen is shown
     private func checkFirefoxSyncScreenShownViaSettings() {
         waitForExistence(app.navigationBars["Client.FirefoxAccountSignInView"], timeout: 20)
-        app.buttons["Use Email Instead"].tap()
+        app.buttons["EmailSignIn.button"].tap()
         waitForExistence(app.webViews.textFields.element(boundBy: 0), timeout:20)
 
         let email = app.webViews.textFields.element(boundBy: 0)
@@ -118,8 +118,8 @@ class NavigationTest: BaseTestCase {
         navigator.goto(LibraryPanel_SyncedTabs)
 
         app.tables.buttons["Sign in to Sync"].tap()
-        waitForExistence(app.buttons["Use Email Instead"], timeout: 10)
-        app.buttons["Use Email Instead"].tap()
+        waitForExistence(app.buttons["EmailSignIn.button"], timeout: 10)
+        app.buttons["EmailSignIn.button"].tap()
         checkFirefoxSyncScreenShown()
     }
 

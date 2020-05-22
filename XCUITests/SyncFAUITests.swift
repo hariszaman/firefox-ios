@@ -92,6 +92,15 @@ class SyncUITests: BaseTestCase {
         app.secureTextFields.element(boundBy: 0).typeText(XCUIKeyboardKey.delete.rawValue)
         waitForNoExistence(app.webViews.staticTexts["Show password"])
     }
+    
+    func testQRPairing() {
+        navigator.goto(Intro_FxASignin)
+        // QR does not work on sim but checking that the button works, no crash
+        navigator.performAction(Action.OpenEmailToQR)
+        waitForExistence(app.navigationBars["Client.FirefoxAccountSignInView"], timeout: 5)
+        app.navigationBars["Client.FirefoxAccountSignInView"].buttons["Close"].tap()
+        waitForExistence(app.collectionViews.cells["TopSitesCell"])
+    }
 
     // Smoketest
     /*Disabled due to the new 6 digits authen code to verify account
